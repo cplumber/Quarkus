@@ -6,7 +6,8 @@ services:
       dockerfile: Dockerfile.legacy-jar
     image: quarkus/cucumber-garden-quarkus-legacy-jar
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy # Waits until the healthcheck for PostgreSQL passes
     environment:
       QUARKUS_DATASOURCE_JDBC_URL: jdbc:postgresql://postgres:5432/cucumber
       QUARKUS_DATASOURCE_USERNAME: admin
@@ -23,10 +24,10 @@ services:
     image: postgres:14-alpine
     container_name: postgres
     restart: always
-    ports:
-      - '5433:5432' # This port mapping is only required for testing the database connection with PSQL from the host machine. 
-                    # The application running inside the Docker network will still function properly without this mapping, 
-                    # as it communicates with the database using the internal Docker network and the service name 'postgres'.
+    # ports:
+    #   - '5433:5432' # This port mapping is only required for testing the database connection with PSQL from the host machine. 
+    #                 # The application running inside the Docker network will still function properly without this mapping, 
+    #                 # as it communicates with the database using the internal Docker network and the service name 'postgres'.
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
@@ -35,6 +36,11 @@ services:
       - ./src/main/resources/sql-scripts/data.sql:/docker-entrypoint-initdb.d/1.sql
     networks:
       - cucumber_network
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "admin"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
 
 networks:
  cucumber_network:
