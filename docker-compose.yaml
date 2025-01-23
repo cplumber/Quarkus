@@ -1,4 +1,4 @@
-
+version: '3.9'
 services:
   cucumber-service:
     build:
@@ -23,8 +23,8 @@ services:
     image: postgres:14-alpine
     container_name: postgres
     restart: always
-    ports:
-      - '5433:5432'
+    # ports:
+    #   - '5433:5432'
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
