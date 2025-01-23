@@ -23,8 +23,10 @@ services:
     image: postgres:14-alpine
     container_name: postgres
     restart: always
-    # ports:
-    #   - '5433:5432'
+    ports:
+      - '5433:5432' # This port mapping is only required for testing the database connection with PSQL from the host machine. 
+                    # The application running inside the Docker network will still function properly without this mapping, 
+                    # as it communicates with the database using the internal Docker network and the service name 'postgres'.
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin
