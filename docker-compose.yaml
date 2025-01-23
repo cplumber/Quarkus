@@ -2,8 +2,8 @@ version: '3.9'
 services:
   cucumber-service:
     build:
-      context: ./src/main/docker/
-      dockerfile: Dockerfile.legacy-jar
+      context: .
+      dockerfile: src/main/docker/Dockerfile.legacy-jar
     image: quarkus/cucumber-garden-quarkus-legacy-jar
     depends_on:
       postgres:

@@ -6,16 +6,11 @@
 # -Dquarkus.package.jar.type=legacy-jar: Packages the application as a legacy JAR
 ./mvnw package -DskipTests -Dquarkus.package.jar.type=legacy-jar
 
-# Step 2: Copy the built artifacts to the Docker build context directory
-# Copies the 'target' directory (which contains the packaged application) to 'src/main/docker'
-# This is necessary so Docker can access the packaged application for building the container
-cp ./target ./src/main/docker/ -r
-
-# Step 3: Build the Docker images
+# Step 2: Build the Docker images
 # --no-cache: Forces Docker to rebuild images from scratch without using cached layers
 docker compose build --no-cache
 
-# Step 4: Start the containers
+# Step 3: Start the containers
 # -d: Runs containers in detached mode (in the background)
 # --remove-orphans: Removes any containers not defined in the current docker-compose.yaml
 docker compose up -d --remove-orphans
