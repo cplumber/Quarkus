@@ -74,3 +74,27 @@ Create your first JPA entity
 Easily start your RESTful Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+
+### Testing the API
+
+You can test the API using tools like Postman, curl, or a browser:
+
+```bash
+# Create an Entity
+curl -X POST http://localhost:8080/my-entity \
+-H "Content-Type: application/json" \
+-d '{"field":"First Entity", "additionalField":"Additional Data"}'
+
+# Get All Entities
+curl http://localhost:8080/my-entity
+
+# Get Entity by ID
+curl http://localhost:8080/my-entity/1
+
+# Update an Entity
+curl -X PUT http://localhost:8080/my-entity/1 \
+-H "Content-Type: application/json" \
+-d '{"field":"Updated Field", "additionalField":"Updated Data"}'
+
+# Delete an Entity
+curl -X DELETE http://localhost:8080/my-entity/1
