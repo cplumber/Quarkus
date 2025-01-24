@@ -4,3 +4,8 @@
 -- insert into myentity (id, field) values(2, 'field-2');
 -- insert into myentity (id, field) values(3, 'field-3');
 -- alter sequence myentity_seq restart with 4;
+
+INSERT INTO myentity (id, field) VALUES (1, 'field-1');
+INSERT INTO myentity (id, field) VALUES (2, 'field-2');
+INSERT INTO myentity (id, field) VALUES (3, 'field-3');
+ALTER SEQUENCE myentity_seq RESTART WITH 4;
