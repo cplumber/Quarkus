@@ -29,4 +29,6 @@ public class MyEntity {
     public Long id;
 
     public String field;
+
+    public String additionalField; // Optional additional field for testing
 }
