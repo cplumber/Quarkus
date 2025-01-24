@@ -9,6 +9,10 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
+
 @Path("/my-entity")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -20,13 +24,21 @@ public class MyEntityResource {
     // Create a new entity
     @POST
     @Transactional
-    public MyEntity createEntity(@NotNull MyEntity entity) {
-        if (entity.id != null) {
-            throw new WebApplicationException("ID should not be provided for a new entity. It is auto-generated.", 400);
-        }
-        em.persist(entity);
-        return entity;
+public MyEntity createEntity(
+    @RequestBody(
+        description = "Request body to create a new entity",
+        required = true,
+        content = @Content(
+            mediaType = "application/json",
+            schema = @Schema(implementation = MyEntity.class)
+        )
+    ) @NotNull MyEntity entity) {
+    if (entity.id != null) {
+        throw new WebApplicationException("ID should not be provided for a new entity. It is auto-generated.", 400);
     }
+    em.persist(entity);
+    return entity;
+}
  
     // Retrieve all entities using raw SQL
     @GET
