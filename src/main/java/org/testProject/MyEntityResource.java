@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 @Path("/my-entity")
@@ -18,9 +20,21 @@ public class MyEntityResource {
     // Create a new entity
     @POST
     @Transactional
-    public MyEntity createEntity(MyEntity entity) {
+    public MyEntity createEntity(@NotNull MyEntity entity) {
+        if (entity.id != null) {
+            throw new WebApplicationException("ID should not be provided for a new entity. It is auto-generated.", 400);
+        }
         em.persist(entity);
-        return entity; // Return the created entity (with ID)
+        return entity;
+    }
+ 
+    // Retrieve all entities using raw SQL
+    @GET
+    @Path("/raw-sql")
+    @SuppressWarnings("unchecked")
+    public List<MyEntity> getAllEntitiesRawSql() {
+        String sql = "SELECT id, field, additionalfield FROM myentity";
+        return em.createNativeQuery(sql, MyEntity.class).getResultList();
     }
 
     // Retrieve all entities

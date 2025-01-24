@@ -3,6 +3,7 @@ package org.testProject;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 /**
  * Example JPA entity.
@@ -22,13 +23,18 @@ import jakarta.persistence.Id;
  *     }
  * }
  */
+@Schema(description = "Represents a simple entity with fields")
 @Entity
 public class MyEntity {
+
     @Id
     @GeneratedValue
+    @Schema(description = "Unique identifier of the entity (auto-generated, do not include in requests)", example = "1", readOnly = true)
     public Long id;
 
+    @Schema(description = "The main field of the entity", example = "example value", required = true)
     public String field;
 
-    public String additionalField; // Optional additional field for testing
+    @Schema(description = "An additional field for extended information", example = "additional example", required = false)
+    public String additionalField;
 }
